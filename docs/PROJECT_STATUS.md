@@ -29,16 +29,18 @@ Hotovo:
 
 Projekt byl otevřen a synchronizován v Android Studiu Quail 2 (2026.1.2) se SDK Android 36.1.
 
+Domácí pracovní kopie je připravená v běžné místní složce mimo OneDrive. Dne 16. července 2026 zde prošly příkazy `test` i `assembleDebug` s JDK 17 dodávaným v Android Studiu. V terminálu je potřeba pro běh Gradlu použít `C:\Program Files\Android\Android Studio\jbr`, protože systémová proměnná `JAVA_HOME` zatím není nastavená.
+
+Na domácím počítači zatím není vytvořené AVD ani nainstalovaný systémový obraz Androidu a přes ADB není připojený žádný telefon.
+
 Současný Android Emulator vyžaduje modernější procesorové virtualizační funkce. Na starším počítači proto použij fyzický telefon nebo emulátor na novějším počítači. Opakované zapínání Windows Hypervisor Platform na nepodporovaném procesoru problém nevyřeší.
 
 ## Nejbližší postup
 
-1. Naklonovat repozitář na domácí počítač do běžné místní složky mimo OneDrive.
-2. Otevřít projekt v Android Studiu a dokončit Gradle synchronizaci s místním Android SDK.
-3. Vytvořit emulátor Pixel na novějším procesoru, případně připojit telefon přes USB debugging.
-4. Spustit aplikaci a pořídit snímek skutečného rozhraní.
-5. Podle testu doladit rozložení, velikosti tlačítek, pásku a ovládání pamětí.
-6. Ověřit klepání na operandy i výsledky v historii a doplnit testy nalezených okrajových případů.
+1. V Android Studiu otevřít Device Manager, doinstalovat systémový obraz a vytvořit emulátor Pixel; případně připojit telefon přes USB debugging.
+2. Spustit aplikaci a pořídit snímek skutečného rozhraní.
+3. Podle testu doladit rozložení, velikosti tlačítek, pásku a ovládání pamětí.
+4. Ověřit klepání na operandy i výsledky v historii a doplnit testy nalezených okrajových případů.
 
 ## Jak začít nový úkol Codexu
 
