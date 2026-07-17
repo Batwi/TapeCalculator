@@ -24,10 +24,18 @@ Hotovo:
 - Gradle konfigurace a wrapper,
 - MIT licence, README, bezpečnostní a přispěvatelské dokumenty,
 - ověřené sestavení debug APK.
+- instalace a spuštění na fyzickém telefonu Samsung Galaxy S22 Ultra (SM-S908B, Android 16 / API 36) přes bezdrátové ladění,
+- první úprava rozhraní podle testu na telefonu: větší páska, menší klávesnice a panel výsledku, zalamování dlouhých výrazů a čtyři trvale uložené barevné palety,
+- anglické popisky rozhraní, označení autora `Autor: MiK` v horní liště a stručná nápověda nad výsledkem pro opětovné použití hodnot z pásky,
+- vlastní barevný picker bez externích závislostí: libovolnou barvu lze trvale nastavit zvlášť pro čísla, operace, rovnítko, paměti, hodnoty a výsledky na pásce a horní tlačítka; barva textu se automaticky přizpůsobuje kontrastu.
 
 ## Vývojové prostředí
 
 Projekt byl otevřen a synchronizován v Android Studiu Quail 2 (2026.1.2) se SDK Android 36.1.
+
+Na pracovním počítači bylo ověřeno skutečné zařízení Samsung Galaxy S22 Ultra. Běžné ADB příkazy přes USB fungovaly, ale přenos APK opakovaně resetoval USB spojení. Telefon byl proto spárován přes **Wireless debugging**; následná instalace i automatické spuštění aplikace z Android Studia proběhly úspěšně. Při dalším testování je vhodné používat stejné bezdrátové připojení a USB problém znovu neřešit.
+
+Dne 17. července 2026 bylo na stejném telefonu vizuálně ověřeno a vlastníkem schváleno nové rozložení, anglické popisky, zalamování pásky, rychlé palety i vlastní výběr libovolných barev pro jednotlivé části rozhraní.
 
 Domácí pracovní kopie je připravená v běžné místní složce mimo OneDrive. Dne 16. července 2026 zde prošly příkazy `test` i `assembleDebug` s JDK 17 dodávaným v Android Studiu. V terminálu je potřeba pro běh Gradlu použít `C:\Program Files\Android\Android Studio\jbr`, protože systémová proměnná `JAVA_HOME` zatím není nastavená.
 
@@ -51,10 +59,9 @@ První start bez hardwarové akcelerace je velmi pomalý. Na pracovním nebo nov
 
 ## Nejbližší postup
 
-1. Na pracovním počítači stáhnout poslední stav z GitHubu a použít jeho hardwarově akcelerovaný emulátor nebo fyzický telefon. Pokud se pokračuje na domácím počítači, spustit výše uvedené AVD API 23 přes archivní Emulator 33.1.1 a počkat na `sys.boot_completed=1`.
-2. Nainstalovat `app-debug.apk`, spustit `cz.batwi.tapecalculator/.MainActivity` a pořídit snímek skutečného rozhraní. U domácí softwarové emulace zatím není ověřeno, zda instalace proběhne stabilně.
-3. Ověřit základní výpočet, klepání na operandy i výsledky v historii a uložení i vyvolání M1–M5.
-4. Podle testu doladit rozložení, velikosti tlačítek, pásku a ovládání pamětí a doplnit testy nalezených okrajových případů.
+1. Commitnout a pushnout schválenou úpravu rozhraní na GitHub.
+2. V dalším vývojovém kroku doplnit testy nalezených okrajových případů a rozhodnout o rozsahu verze `0.2.0`.
+3. Před veřejným vydáním připravit ikonu, snímky obrazovky, podepsané APK/AAB a stručný anglický i český popis aplikace.
 
 ## Jak začít nový úkol Codexu
 
