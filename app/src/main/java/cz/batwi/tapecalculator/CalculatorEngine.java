@@ -13,7 +13,8 @@ public final class CalculatorEngine {
     }
 
     private static final MathContext MC = new MathContext(20, RoundingMode.HALF_UP);
-    private static final String ERROR = "Chyba";
+    private static final String ERROR = "Error";
+    private static final String LEGACY_ERROR = "Chyba";
 
     private String input = "0";
     private BigDecimal accumulated;
@@ -121,6 +122,35 @@ public final class CalculatorEngine {
         }
     }
 
+    public void squareRoot() {
+        if (isError()) {
+            clear();
+            return;
+        }
+
+        BigDecimal operand = parseInput();
+        try {
+            BigDecimal result = squareRootValue(operand);
+            String canonicalResult = canonical(result);
+            ArrayList<String> tokens = new ArrayList<>();
+            tokens.add("√");
+            tokens.add(canonical(operand));
+            historyListener.onHistoryEntry(new HistoryEntry(tokens, canonicalResult));
+            input = canonicalResult;
+            waitingForOperand = false;
+
+            if (pendingOperator == null) {
+                accumulated = null;
+                expressionTokens.clear();
+                justEvaluated = true;
+            } else {
+                justEvaluated = false;
+            }
+        } catch (ArithmeticException exception) {
+            setError();
+        }
+    }
+
     public void pasteValue(String value) {
         try {
             BigDecimal parsed = new BigDecimal(value, MC);
@@ -151,7 +181,7 @@ public final class CalculatorEngine {
     }
 
     public boolean isError() {
-        return ERROR.equals(input);
+        return ERROR.equals(input) || LEGACY_ERROR.equals(input);
     }
 
     public Bundle saveState() {
@@ -168,6 +198,7 @@ public final class CalculatorEngine {
     public void restoreState(Bundle state) {
         if (state == null) return;
         input = state.getString("input", "0");
+        if (LEGACY_ERROR.equals(input)) input = ERROR;
         String savedAccumulated = state.getString("accumulated");
         accumulated = savedAccumulated == null ? null : new BigDecimal(savedAccumulated, MC);
         pendingOperator = state.getString("operator");
@@ -212,6 +243,21 @@ public final class CalculatorEngine {
         return new BigDecimal(Double.toString(powered), MC);
     }
 
+    private BigDecimal squareRootValue(BigDecimal value) {
+        if (value.signum() < 0) throw new ArithmeticException("Square root of a negative number");
+        if (value.signum() == 0) return BigDecimal.ZERO;
+
+        int magnitude = value.precision() - value.scale();
+        BigDecimal guess = BigDecimal.ONE.scaleByPowerOfTen(Math.floorDiv(magnitude, 2));
+        BigDecimal two = BigDecimal.valueOf(2);
+        for (int iteration = 0; iteration < MC.getPrecision() + 10; iteration++) {
+            BigDecimal next = guess.add(value.divide(guess, MC), MC).divide(two, MC);
+            if (next.compareTo(guess) == 0) return next;
+            guess = next;
+        }
+        return guess;
+    }
+
     private void setError() {
         input = ERROR;
         resetChain();
@@ -226,7 +272,8 @@ public final class CalculatorEngine {
     }
 
     public static boolean isOperator(String token) {
-        return token.equals("+") || token.equals("−") || token.equals("×") || token.equals("÷") || token.equals("^");
+        return token.equals("+") || token.equals("−") || token.equals("×") || token.equals("÷")
+                || token.equals("^") || token.equals("√");
     }
 
     private static String canonical(BigDecimal value) {

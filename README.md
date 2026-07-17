@@ -10,7 +10,7 @@ Many calculator apps show history, but treat it as static text. Tape Calculator 
 
 ## Features
 
-- Addition, subtraction, multiplication, division, and exponentiation
+- Addition, subtraction, multiplication, division, exponentiation, and square root
 - Calculation tape with up to 100 persisted entries
 - Tap any number on the tape to reuse it as the current operand
 - Five persistent memory slots (M1–M5)

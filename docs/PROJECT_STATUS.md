@@ -15,7 +15,7 @@ Verze `0.1.0` je časný funkční prototyp.
 Hotovo:
 
 - základní Android projekt v Javě,
-- výpočty `+`, `−`, `×`, `÷` a mocnění,
+- výpočty `+`, `−`, `×`, `÷`, mocnění a odmocnina,
 - interaktivní historie výpočtů s maximálně 100 položkami,
 - možnost znovu použít číslo z historie,
 - pět trvalých pamětí M1–M5,
@@ -23,11 +23,13 @@ Hotovo:
 - jednotkové testy výpočetního jádra,
 - Gradle konfigurace a wrapper,
 - MIT licence, README, bezpečnostní a přispěvatelské dokumenty,
-- ověřené sestavení debug APK.
+- ověřené sestavení debug APK,
 - instalace a spuštění na fyzickém telefonu Samsung Galaxy S22 Ultra (SM-S908B, Android 16 / API 36) přes bezdrátové ladění,
 - první úprava rozhraní podle testu na telefonu: větší páska, menší klávesnice a panel výsledku, zalamování dlouhých výrazů a čtyři trvale uložené barevné palety,
 - anglické popisky rozhraní, označení autora `Autor: MiK` v horní liště a stručná nápověda nad výsledkem pro opětovné použití hodnot z pásky,
 - vlastní barevný picker bez externích závislostí: libovolnou barvu lze trvale nastavit zvlášť pro čísla, operace, rovnítko, paměti, hodnoty a výsledky na pásce a horní tlačítka; barva textu se automaticky přizpůsobuje kontrastu.
+- doplněná odmocnina s vlastním tlačítkem `√`, zápisem na pásku, podporou použití uvnitř rozepsaného výpočtu a ošetřením záporných čísel,
+- všech pět pamětí M1–M5 je zobrazeno současně v jednom řádku bez horizontálního posouvání. Samostatné mazání není potřeba, hodnotu lze přepsat nulou.
 
 ## Vývojové prostředí
 
@@ -36,6 +38,8 @@ Projekt byl otevřen a synchronizován v Android Studiu Quail 2 (2026.1.2) se SD
 Na pracovním počítači bylo ověřeno skutečné zařízení Samsung Galaxy S22 Ultra. Běžné ADB příkazy přes USB fungovaly, ale přenos APK opakovaně resetoval USB spojení. Telefon byl proto spárován přes **Wireless debugging**; následná instalace i automatické spuštění aplikace z Android Studia proběhly úspěšně. Při dalším testování je vhodné používat stejné bezdrátové připojení a USB problém znovu neřešit.
 
 Dne 17. července 2026 bylo na stejném telefonu vizuálně ověřeno a vlastníkem schváleno nové rozložení, anglické popisky, zalamování pásky, rychlé palety i vlastní výběr libovolných barev pro jednotlivé části rozhraní.
+
+Na stejném telefonu byla následně ověřena a vlastníkem schválena také odmocnina, nové rozložení matematických operací a současné zobrazení všech pěti pamětí M1–M5.
 
 Domácí pracovní kopie je připravená v běžné místní složce mimo OneDrive. Dne 16. července 2026 zde prošly příkazy `test` i `assembleDebug` s JDK 17 dodávaným v Android Studiu. V terminálu je potřeba pro běh Gradlu použít `C:\Program Files\Android\Android Studio\jbr`, protože systémová proměnná `JAVA_HOME` zatím není nastavená.
 
@@ -59,7 +63,7 @@ První start bez hardwarové akcelerace je velmi pomalý. Na pracovním nebo nov
 
 ## Nejbližší postup
 
-1. Commitnout a pushnout schválenou úpravu rozhraní na GitHub.
+1. Commitnout a pushnout schválenou odmocninu a nové rozložení pamětí na GitHub.
 2. V dalším vývojovém kroku doplnit testy nalezených okrajových případů a rozhodnout o rozsahu verze `0.2.0`.
 3. Před veřejným vydáním připravit ikonu, snímky obrazovky, podepsané APK/AAB a stručný anglický i český popis aplikace.
 

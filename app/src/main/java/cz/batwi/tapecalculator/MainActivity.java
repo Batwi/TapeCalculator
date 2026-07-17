@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -189,8 +188,6 @@ public final class MainActivity extends Activity {
         TextView hint = text("Memory — tap: recall  •  hold: store", 12, MUTED);
         hint.setPadding(dp(16), 0, dp(12), 0);
         wrapper.addView(hint, lp(ViewGroup.LayoutParams.MATCH_PARENT, dp(20)));
-        HorizontalScrollView scroll = new HorizontalScrollView(this);
-        scroll.setHorizontalScrollBarEnabled(false);
         LinearLayout row = new LinearLayout(this);
         row.setPadding(dp(8), 0, dp(8), dp(6));
         for (int i = 0; i < memories.length; i++) {
@@ -208,34 +205,36 @@ public final class MainActivity extends Activity {
                 storeMemory(slot);
                 return true;
             });
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(116), dp(48));
-            params.setMargins(dp(4), 0, dp(4), 0);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, dp(48), 1f);
+            params.setMargins(dp(2), 0, dp(2), 0);
             row.addView(button, params);
             memoryButtons.add(button);
         }
-        scroll.addView(row, lp(ViewGroup.LayoutParams.WRAP_CONTENT, dp(52)));
-        wrapper.addView(scroll, lp(ViewGroup.LayoutParams.MATCH_PARENT, dp(52)));
+        wrapper.addView(row, lp(ViewGroup.LayoutParams.MATCH_PARENT, dp(52)));
         updateMemoryButtons();
         return wrapper;
     }
 
     private View buildKeyboard() {
         GridLayout grid = new GridLayout(this);
-        grid.setColumnCount(4);
+        grid.setColumnCount(5);
         grid.setRowCount(5);
         grid.setPadding(dp(8), 0, dp(8), dp(8));
         List<String> labels = Arrays.asList(
-                "⌫", "C", "^", "÷",
+                "⌫", "C", "√", "^", "÷",
                 "7", "8", "9", "×",
                 "4", "5", "6", "−",
                 "1", "2", "3", "+",
                 "±", "0", ",", "="
         );
-        for (String label : labels) addKey(grid, label);
+        for (int index = 0; index < labels.size(); index++) {
+            int columnSpan = index >= 5 && (index - 5) % 4 == 3 ? 2 : 1;
+            addKey(grid, labels.get(index), columnSpan);
+        }
         return grid;
     }
 
-    private void addKey(GridLayout grid, String label) {
+    private void addKey(GridLayout grid, String label, int columnSpan) {
         Button key = new Button(this);
         key.setText(label);
         key.setTextSize(TypedValue.COMPLEX_UNIT_SP, label.equals("=") ? 28 : 24);
@@ -245,6 +244,8 @@ public final class MainActivity extends Activity {
         if (label.equals("=")) color = palette[PALETTE_EQUAL_KEY];
         key.setTextColor(contrastTextColor(color));
         key.setBackground(makeBackground(color, 12, 0));
+        if (label.equals("√")) key.setContentDescription("Square root");
+        else if (label.equals("^")) key.setContentDescription("Power");
         key.setOnClickListener(v -> {
             handleKey(label);
             v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
@@ -252,7 +253,7 @@ public final class MainActivity extends Activity {
         GridLayout.LayoutParams params = new GridLayout.LayoutParams();
         params.width = 0;
         params.height = 0;
-        params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
+        params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, columnSpan, (float) columnSpan);
         params.rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
         params.setMargins(dp(4), dp(4), dp(4), dp(4));
         grid.addView(key, params);
@@ -264,6 +265,7 @@ public final class MainActivity extends Activity {
         else if (label.equals("±")) engine.toggleSign();
         else if (label.equals("⌫")) engine.backspace();
         else if (label.equals("C")) engine.clear();
+        else if (label.equals("√")) engine.squareRoot();
         else if (label.equals("=")) engine.equalsPressed();
         else engine.operator(label);
         refreshDisplay();
