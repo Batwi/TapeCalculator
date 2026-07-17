@@ -63,9 +63,8 @@ První start bez hardwarové akcelerace je velmi pomalý. Na pracovním nebo nov
 
 ## Nejbližší postup
 
-1. Commitnout a pushnout schválenou odmocninu a nové rozložení pamětí na GitHub.
-2. V dalším vývojovém kroku doplnit testy nalezených okrajových případů a rozhodnout o rozsahu verze `0.2.0`.
-3. Před veřejným vydáním připravit ikonu, snímky obrazovky, podepsané APK/AAB a stručný anglický i český popis aplikace.
+1. V dalším vývojovém kroku doplnit testy dalších nalezených okrajových případů a rozhodnout o rozsahu verze `0.2.0`.
+2. Před veřejným vydáním připravit ikonu, snímky obrazovky, podepsané APK/AAB a stručný anglický i český popis aplikace.
 
 ## Jak začít nový úkol Codexu
 
